@@ -4,19 +4,24 @@ import {WelcomeComponent} from './welcome/welcome.component';
 import {RouterModule, Routes} from '@angular/router';
 import { ScanComponent } from './scan/scan.component';
 import { ManagePlansComponent } from './manage-plans/manage-plans.component';
+import { MedscanComponent } from './medscan/medscan.component';
 
 const routes = [
-  {path: '', component: WelcomeComponent}
+  {path: '', component: WelcomeComponent},
+  {path: 'scan', component: ScanComponent},
+  {path: 'manage-plans', component: ManagePlansComponent}
 ] as Routes;
 
 @NgModule({
   declarations: [
     WelcomeComponent,
     ScanComponent,
-    ManagePlansComponent
+    ManagePlansComponent,
+    MedscanComponent
   ],
   exports: [
-    WelcomeComponent
+    WelcomeComponent,
+    MedscanComponent
   ],
   imports: [
     CommonModule,
