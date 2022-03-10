@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {MedicationPlanParserService} from '../shared/services/medication-plan-parser.service';
 import {MedicationPlan} from '../shared/models/medication-plan';
-import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MedicationPlanRepositoryService} from "../shared/repositories/medication-plan-repository.service";
 
 @Component({
   selector: 'app-manage-plans',
@@ -12,22 +10,18 @@ import {Router} from '@angular/router';
 })
 export class ManagePlansComponent implements OnInit {
 
-  medicationPlan$: Observable<MedicationPlan | null>;
+  medicationPlan: MedicationPlan;
 
   constructor(
-    private medicationPlanParserService: MedicationPlanParserService,
+    private activatedRoute: ActivatedRoute,
+    private medicationPlanRepository: MedicationPlanRepositoryService,
     private router: Router
   ) {
-    this.medicationPlan$ = medicationPlanParserService.currentMedicationPlan.pipe(tap(mp => {
-      if (mp === null) {
-        this.navigateToWelcomeScreen();
-      }
-    }));
+    this.medicationPlan = this.activatedRoute.snapshot.data['plan'];
   }
 
   ngOnInit(): void {
   }
-
 
   savePlan() {
     this.navigateToWelcomeScreen();

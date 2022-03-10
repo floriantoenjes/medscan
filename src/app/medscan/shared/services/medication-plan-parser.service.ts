@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {MedicationPlan} from '../models/medication-plan';
-import {BehaviorSubject} from 'rxjs';
 import {XMLParser} from 'fast-xml-parser';
 import {Medication, MedicationTimes} from '../models/medication';
 
@@ -9,52 +8,52 @@ import {Medication, MedicationTimes} from '../models/medication';
 })
 export class MedicationPlanParserService {
 
-  currentMedicationPlan = new BehaviorSubject<MedicationPlan | null>(null);
+  xmlParser = new XMLParser({
+    ignoreAttributes: false
+  });
 
   constructor() { }
 
-  parseXmlToMedicationPlan(xml: any): void {
-    const medicationPlan = new MedicationPlan();
+  parseXmlToMedicationPlan(xml: any): Promise<MedicationPlan> {
+    return new Promise((resolve) => {
+      const parsedXml = this.xmlParser.parse(xml);
 
+      console.log(parsedXml);
 
-    console.log(xml);
-    const parser = new XMLParser({
-      ignoreAttributes: false
+      const planId = parsedXml.MP['@_U'];
+      const medicationPlan = new MedicationPlan(planId);
+
+      const usualMedsObj = parsedXml.MP.S[0].M as [];
+      usualMedsObj.forEach((usualMed: any) => {
+        medicationPlan.addMedication(this.parseMedication(usualMed));
+      });
+
+      resolve(medicationPlan);
     });
-    const parsedXml = parser.parse(xml);
+  }
 
-    console.log(parsedXml);
+  parseMedication(usualMed: any): Medication {
+    let medicationTime = MedicationTimes.UNKNOWN;
+    let reason = '';
+    let id = '';
 
-    const usualMedsObj = parsedXml.MP.S[0].M as [];
-    usualMedsObj.forEach((usualMed: any) => {
-
-      let medicationTime = MedicationTimes.UNKNOWN;
-      let reason = '';
-      let id = '';
-
-      for (const prop in usualMed) {
-        if (prop === '@_r') {
-          reason = usualMed[prop];
-        }
-
-        if (prop === '@_p') {
-          id = usualMed[prop];
-        }
-
-        if (prop === '@_m') {
-          medicationTime = MedicationTimes.MORNING;
-        }
-
-        if (prop === '@_v') {
-          medicationTime = MedicationTimes.EVENING;
-        }
+    for (const prop in usualMed) {
+      if (prop === '@_r') {
+        reason = usualMed[prop];
       }
 
-      medicationPlan.addMedication(
-        new Medication(id, reason, medicationTime)
-      );
-    });
+      if (prop === '@_p') {
+        id = usualMed[prop];
+      }
 
-    this.currentMedicationPlan.next(medicationPlan);
+      if (prop === '@_m') {
+        medicationTime = MedicationTimes.MORNING;
+      }
+
+      if (prop === '@_v') {
+        medicationTime = MedicationTimes.EVENING;
+      }
+    }
+    return new Medication(id, reason, medicationTime)
   }
 }

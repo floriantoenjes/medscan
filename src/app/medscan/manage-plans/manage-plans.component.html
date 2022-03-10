@@ -1,4 +1,4 @@
-<div class="medication-plan" *ngIf="medicationPlan$ | async as medicationPlan">
+<div class="medication-plan">
   <div *ngIf="medicationPlan.morningMedications.length > 0">
     <h3>Morning Medications:</h3>
     <div *ngFor="let morningMed of medicationPlan.morningMedications">

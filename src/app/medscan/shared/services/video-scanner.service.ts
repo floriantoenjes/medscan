@@ -7,11 +7,11 @@ import {environment} from "../../../../environments/environment";
 })
 export class VideoScannerService {
 
+  codeReader = new BrowserDatamatrixCodeReader();
+
   constructor() { }
 
   async scanForDataMatrixCode(): Promise<string> {
-    const codeReader = new BrowserDatamatrixCodeReader();
-
     const videoInputDevices = await BrowserDatamatrixCodeReader.listVideoInputDevices();
 
     const selectedDeviceId = videoInputDevices[0].deviceId;
@@ -22,7 +22,7 @@ export class VideoScannerService {
     setTimeout(() => timedOut = true, environment.scanTimeout);
 
     return new Promise(((resolve, reject) => {
-      codeReader.decodeFromVideoDevice(selectedDeviceId, 'scan-preview', (result, error, controls) => {
+      this.codeReader.decodeFromVideoDevice(selectedDeviceId, 'scan-preview', (result, error, controls) => {
         if (result) {
           controls.stop();
           resolve(result.getText());

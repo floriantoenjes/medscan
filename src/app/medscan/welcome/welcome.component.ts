@@ -8,12 +8,8 @@ import {Router} from '@angular/router';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(public router: Router) { }
 
   ngOnInit(): void {
-  }
-
-  openScanner(): void {
-    this.router.navigate(['scan']);
   }
 }

@@ -2,7 +2,8 @@ export enum MedicationTimes {
   MORNING,
   LUNCH,
   EVENING,
-
+  SPECIAL_TIMES,
+  SELF_MEDICATION,
   UNKNOWN
 }
 
