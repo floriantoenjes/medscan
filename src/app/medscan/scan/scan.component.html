@@ -1,6 +1,17 @@
-<h1>Place your code within the window</h1>
-<p>It doesn't work? Be sure that the code is well lit and steady.</p>
-
 <div class="wrapper">
-  <video id="scan-preview"></video>
+  <div *ngIf="!scanningFailed">
+    <h1>Place your code within the window</h1>
+    <div>
+      <video id="scan-preview"></video>
+    </div>
+    <p>It doesn't work? Be sure that the code is well lit and steady.</p>
+  </div>
+  <div *ngIf="scanningFailed">
+    <h1>Sorry</h1>
+    <p>Could not scan any medication code.</p>
+    <div>
+      <button (click)="router.navigate([''])">Back</button>
+      <button (click)="retry()">Retry</button>
+    </div>
+  </div>
 </div>

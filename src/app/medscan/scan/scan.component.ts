@@ -10,17 +10,29 @@ import {Router} from '@angular/router';
 })
 export class ScanComponent implements OnInit {
 
+  scanningFailed = false;
+
   constructor(
     private videoScannerService: VideoScannerService,
     private medicationPlanParserService: MedicationPlanParserService,
-    private router: Router,
+    public router: Router,
   ) { }
 
   ngOnInit(): void {
+    this.scan();
+  }
+
+  scan(): void {
     this.videoScannerService.scanForDataMatrixCode().then(xml => {
       this.medicationPlanParserService.parseXmlToMedicationPlan(xml);
-      this.router.navigate(['manage-plans']);
-    });
+      this.router.navigate(['manage-plans'])
+    }).catch(() => this.scanningFailed = true);
   }
+
+  retry(): void {
+    this.scanningFailed = false;
+    this.scan();
+  }
+
 
 }

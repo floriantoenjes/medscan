@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BrowserDatamatrixCodeReader} from '@zxing/browser';
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class VideoScannerService {
     console.log(`Started decode from camera with id ${selectedDeviceId}`);
 
     let timedOut = false;
-    setTimeout(() => timedOut = true, 20_000);
+    setTimeout(() => timedOut = true, environment.scanTimeout);
 
     return new Promise(((resolve, reject) => {
       codeReader.decodeFromVideoDevice(selectedDeviceId, 'scan-preview', (result, error, controls) => {

@@ -1,11 +1,16 @@
 import {Medication, MedicationTimes} from './medication';
 
 export class MedicationPlan {
-  medications: Medication[] = [];
+
+  id: string;
 
   morningMedications: Medication[] = [];
   lunchMedications: Medication[] = [];
   eveningMedications: Medication[] = [];
+
+  constructor(id: string) {
+    this.id = id;
+  }
 
   addMedication(medication: Medication): void {
     switch (medication.medicationTime) {
