@@ -9,7 +9,7 @@ import {Medication, MedicationTimes} from '../models/medication';
 })
 export class MedicationPlanParserService {
 
-  currentMedicationPlan = new BehaviorSubject<MedicationPlan>(new MedicationPlan());
+  currentMedicationPlan = new BehaviorSubject<MedicationPlan | null>(null);
 
   constructor() { }
 

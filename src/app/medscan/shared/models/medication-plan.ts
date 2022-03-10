@@ -4,6 +4,7 @@ export class MedicationPlan {
   medications: Medication[] = [];
 
   morningMedications: Medication[] = [];
+  lunchMedications: Medication[] = [];
   eveningMedications: Medication[] = [];
 
   addMedication(medication: Medication): void {
