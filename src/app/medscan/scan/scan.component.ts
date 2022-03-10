@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {VideoScannerService} from '../shared/services/video-scanner.service';
-import {XMLParser} from 'fast-xml-parser';
+import {MedicationPlanParserService} from '../shared/services/medication-plan-parser.service';
 
 @Component({
   selector: 'app-scan',
@@ -9,16 +9,11 @@ import {XMLParser} from 'fast-xml-parser';
 })
 export class ScanComponent implements OnInit {
 
-  constructor(private videoScannerService: VideoScannerService) { }
+  constructor(private videoScannerService: VideoScannerService, private medicationPlanParserService: MedicationPlanParserService) { }
 
   ngOnInit(): void {
     this.videoScannerService.scanForDataMatrixCode().then(xml => {
-      console.log(xml);
-      const parser = new XMLParser({
-        ignoreAttributes: false
-      });
-      const parsedXml = parser.parse(xml);
-      console.error(parsedXml);
+      this.medicationPlanParserService.parseXmlToMedicationPlan(xml);
     });
   }
 
