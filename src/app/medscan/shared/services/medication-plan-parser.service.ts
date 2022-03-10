@@ -9,7 +9,7 @@ import {Medication, MedicationTimes} from '../models/medication';
 })
 export class MedicationPlanParserService {
 
-  currentMedicationPlan = new BehaviorSubject<MedicationPlan | null>(null);
+  currentMedicationPlan = new BehaviorSubject<MedicationPlan>(new MedicationPlan());
 
   constructor() { }
 
@@ -30,7 +30,7 @@ export class MedicationPlanParserService {
 
       let medicationTime = MedicationTimes.UNKNOWN;
       let reason = '';
-      let amount = '';
+      let id = '';
 
       for (const prop in usualMed) {
         if (prop === '@_r') {
@@ -38,7 +38,7 @@ export class MedicationPlanParserService {
         }
 
         if (prop === '@_p') {
-          amount = usualMed[prop];
+          id = usualMed[prop];
         }
 
         if (prop === '@_m') {
@@ -50,8 +50,8 @@ export class MedicationPlanParserService {
         }
       }
 
-      medicationPlan.medications.push(
-        new Medication(amount, reason, medicationTime)
+      medicationPlan.addMedication(
+        new Medication(id, reason, medicationTime)
       );
     });
 

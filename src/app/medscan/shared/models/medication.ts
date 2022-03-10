@@ -6,12 +6,12 @@ export enum MedicationTimes {
 }
 
 export class Medication {
-  amount: string;
+  id: string;
   reason: string;
   medicationTime: MedicationTimes;
 
-  constructor(amount: string, reason: string, medicationTime: MedicationTimes) {
-    this.amount = amount;
+  constructor(id: string, reason: string, medicationTime: MedicationTimes) {
+    this.id = id;
     this.reason = reason;
     this.medicationTime = medicationTime;
   }

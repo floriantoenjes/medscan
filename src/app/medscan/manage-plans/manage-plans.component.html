@@ -1,1 +1,7 @@
-<p>manage-plans works!</p>
+<div class="medication-plan" *ngIf="medicationPlan$ | async as medicationPlan">
+  <h2>Morning Medications</h2>
+  <div *ngFor="let morningMed of medicationPlan.morningMedications">
+    <p>{{morningMed.id}}</p>
+    <p>{{morningMed.reason}}</p>
+  </div>
+</div>
