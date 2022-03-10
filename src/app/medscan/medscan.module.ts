@@ -25,7 +25,7 @@ const routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
   ]
 })
 export class MedscanModule {
