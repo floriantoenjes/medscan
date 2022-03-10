@@ -19,7 +19,7 @@ export class MedicalPlanResolver implements Resolve<MedicationPlan | undefined> 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MedicationPlan | undefined {
     const planId = route.paramMap.get('planId');
     if (planId) {
-      return this.medicationPlanRepository.getMedicationPlan(planId);
+      return this.medicationPlanRepository.get(planId);
     }
     return undefined;
   }

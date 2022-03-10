@@ -14,7 +14,7 @@ export class ManagePlansComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private medicationPlanRepository: MedicationPlanRepositoryService,
+    private planRepository: MedicationPlanRepositoryService,
     private router: Router
   ) {
     this.medicationPlan = this.activatedRoute.snapshot.data['plan'];
@@ -24,11 +24,11 @@ export class ManagePlansComponent implements OnInit {
   }
 
   savePlan() {
+    // TODO: Persist medication plan
     this.navigateToWelcomeScreen();
   }
 
   navigateToWelcomeScreen(): void {
-    console.log('Persist medication plan!')
     this.router.navigate(['']);
   }
 

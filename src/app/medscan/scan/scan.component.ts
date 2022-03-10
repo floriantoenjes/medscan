@@ -14,10 +14,10 @@ export class ScanComponent implements OnInit {
   scanningFailed = false;
 
   constructor(
-    private videoScannerService: VideoScannerService,
-    private medicationPlanParserService: MedicationPlanParserService,
-    private medicationPlanRepositoryService: MedicationPlanRepositoryService,
+    private planParserService: MedicationPlanParserService,
+    private planRepositoryService: MedicationPlanRepositoryService,
     public router: Router,
+    private videoScannerService: VideoScannerService,
   ) { }
 
   ngOnInit(): void {
@@ -26,9 +26,8 @@ export class ScanComponent implements OnInit {
 
   async startScanning(): Promise<void> {
     this.videoScannerService.scanForDataMatrixCode().then(async xml => {
-      const medicationPlan = await this.medicationPlanParserService.parseXmlToMedicationPlan(xml);
-      this.medicationPlanRepositoryService.persist(medicationPlan);
-      console.log(medicationPlan.id);
+      const medicationPlan = await this.planParserService.parseXmlToMedicationPlan(xml);
+      this.planRepositoryService.save(medicationPlan);
       this.router.navigate(['manage-plans', medicationPlan.id])
     }).catch(() => this.scanningFailed = true);
   }

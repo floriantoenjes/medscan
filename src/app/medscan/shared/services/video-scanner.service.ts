@@ -13,10 +13,7 @@ export class VideoScannerService {
 
   async scanForDataMatrixCode(): Promise<string> {
     const videoInputDevices = await BrowserDatamatrixCodeReader.listVideoInputDevices();
-
     const selectedDeviceId = videoInputDevices[0].deviceId;
-
-    console.log(`Started decode from camera with id ${selectedDeviceId}`);
 
     let timedOut = false;
     setTimeout(() => timedOut = true, environment.scanTimeout);

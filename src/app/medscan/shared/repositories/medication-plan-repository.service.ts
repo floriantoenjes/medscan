@@ -10,11 +10,11 @@ export class MedicationPlanRepositoryService {
 
   constructor() { }
 
-  persist(medicationPlan: MedicationPlan): void {
+  save(medicationPlan: MedicationPlan): void {
     this.store.set(medicationPlan.id, medicationPlan);
   }
 
-  getMedicationPlan(id: string): MedicationPlan | undefined {
+  get(id: string): MedicationPlan | undefined {
     return this.store.get(id);
   }
 }
