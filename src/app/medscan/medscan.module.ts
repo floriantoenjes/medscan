@@ -6,6 +6,7 @@ import { ScanComponent } from './scan/scan.component';
 import { ManagePlansComponent } from './manage-plans/manage-plans.component';
 import { MedscanComponent } from './medscan/medscan.component';
 import {MedicalPlanResolver} from "./shared/resolvers/medical-plan.resolver";
+import { TimeSectionComponent } from './time-section/time-section.component';
 
 const routes = [
   {path: '', component: WelcomeComponent},
@@ -20,7 +21,8 @@ const routes = [
     WelcomeComponent,
     ScanComponent,
     ManagePlansComponent,
-    MedscanComponent
+    MedscanComponent,
+    TimeSectionComponent
   ],
   exports: [
     WelcomeComponent,

@@ -1,30 +1,21 @@
 <div>
-  <div *ngIf="medicationPlan.morningMedications.length > 0">
-    <h3>Morning Medications:</h3>
-    <div *ngFor="let morningMed of medicationPlan.morningMedications">
-      <p>{{morningMed.id}}</p>
-      <p>{{morningMed.reason}}</p>
-      <hr>
-    </div>
-  </div>
+  <app-time-section [medications]="medicationPlan.morningMedications"
+                    title="Morning"></app-time-section>
 
-  <div *ngIf="medicationPlan.lunchMedications.length > 0">
-    <h3>Morning Medications:</h3>
-    <div *ngFor="let lunchMed of medicationPlan.lunchMedications">
-      <p>{{lunchMed.id}}</p>
-      <p>{{lunchMed.reason}}</p>
-      <hr>
-    </div>
-  </div>
+  <app-time-section [medications]="medicationPlan.lunchMedications"
+                    title="Lunch"></app-time-section>
 
-  <h3>Evening Medications:</h3>
-  <div *ngIf="medicationPlan.eveningMedications.length > 0">
-    <div *ngFor="let eveningMed of medicationPlan.eveningMedications">
-      <p>{{eveningMed.id}}</p>
-      <p>{{eveningMed.reason}}</p>
-      <hr>
-    </div>
-  </div>
+  <app-time-section [medications]="medicationPlan.eveningMedications"
+                    title="Evening"></app-time-section>
+
+  <app-time-section [medications]="medicationPlan.nightMedications"
+                    title="Night"></app-time-section>
+
+  <app-time-section [medications]="medicationPlan.specialMedications"
+                    title="Special"></app-time-section>
+
+  <app-time-section [medications]="medicationPlan.selfMedications"
+                    title="Self Applied"></app-time-section>
 
   <button (click)="savePlan()">Save this plan</button>
 </div>

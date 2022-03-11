@@ -23,17 +23,38 @@ export class MedicationPlanParserService {
       const planId = parsedXml.MP['@_U'];
       const medicationPlan = new MedicationPlan(planId);
 
-      const usualMedsObj = parsedXml.MP.S[0].M as [];
-      usualMedsObj.forEach((usualMed: any) => {
-        medicationPlan.addMedication(this.parseMedication(usualMed));
-      });
+      const usualMedsObj = parsedXml.MP.S[0].M;
+      if (usualMedsObj.length > 0) {
+        usualMedsObj.forEach((usualMed: any) => {
+          medicationPlan.addMedication(this.parseMedication(usualMed));
+        });
+      } else {
+        medicationPlan.addMedication(this.parseMedication(usualMedsObj));
+      }
+
+      const specialMedsObj = parsedXml.MP.S[1].M;
+      if (specialMedsObj.length > 0) {
+        specialMedsObj.forEach((specialMed: any) => {
+          medicationPlan.addMedication(this.parseMedication(specialMed, MedicationTimes.SPECIAL));
+        });
+      } else {
+        medicationPlan.addMedication(this.parseMedication(specialMedsObj, MedicationTimes.SPECIAL));
+      }
+
+      const selfMedicatedObj = parsedXml.MP.S[2].M;
+      if (selfMedicatedObj.length > 0) {
+        selfMedicatedObj.forEach((selfMed: any) => {
+          medicationPlan.addMedication(this.parseMedication(selfMed, MedicationTimes.SELF_MEDICATED));
+        });
+      } else {
+        medicationPlan.addMedication(this.parseMedication(selfMedicatedObj, MedicationTimes.SELF_MEDICATED));
+      }
 
       resolve(medicationPlan);
     });
   }
 
-  parseMedication(usualMed: any): Medication {
-    let medicationTime = MedicationTimes.UNKNOWN;
+  parseMedication(usualMed: any, medicationTime = MedicationTimes.UNKNOWN): Medication {
     let reason = '';
     let id = '';
 
@@ -46,12 +67,14 @@ export class MedicationPlanParserService {
         id = usualMed[prop];
       }
 
-      if (prop === '@_m') {
-        medicationTime = MedicationTimes.MORNING;
-      }
+      if (medicationTime === MedicationTimes.UNKNOWN) {
+        if (prop === '@_m') {
+          medicationTime = MedicationTimes.MORNING;
+        }
 
-      if (prop === '@_v') {
-        medicationTime = MedicationTimes.EVENING;
+        if (prop === '@_v') {
+          medicationTime = MedicationTimes.EVENING;
+        }
       }
     }
     return new Medication(id, reason, medicationTime)

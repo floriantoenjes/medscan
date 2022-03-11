@@ -1,0 +1,8 @@
+<div *ngIf="medications.length > 0">
+  <h3>{{title}}:</h3>
+  <div *ngFor="let medication of medications">
+    <p>{{medication.id}}</p>
+    <p>{{medication.reason}}</p>
+    <hr>
+  </div>
+</div>

@@ -7,6 +7,9 @@ export class MedicationPlan {
   morningMedications: Medication[] = [];
   lunchMedications: Medication[] = [];
   eveningMedications: Medication[] = [];
+  nightMedications: Medication[] = [];
+  specialMedications: Medication[] = [];
+  selfMedications: Medication[] = [];
 
   constructor(id: string) {
     this.id = id;
@@ -19,6 +22,15 @@ export class MedicationPlan {
         break;
       case MedicationTimes.EVENING:
         this.eveningMedications.push(medication);
+        break;
+      case MedicationTimes.NIGHT:
+        this.nightMedications.push(medication);
+        break;
+      case MedicationTimes.SPECIAL:
+        this.specialMedications.push(medication);
+        break;
+      case MedicationTimes.SELF_MEDICATED:
+        this.selfMedications.push(medication);
         break;
     }
   }
