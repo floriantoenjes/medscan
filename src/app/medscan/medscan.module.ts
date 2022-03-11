@@ -25,7 +25,6 @@ const routes = [
     TimeSectionComponent
   ],
   exports: [
-    WelcomeComponent,
     MedscanComponent
   ],
   imports: [
