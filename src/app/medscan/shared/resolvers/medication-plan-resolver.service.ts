@@ -11,14 +11,14 @@ import {EMPTY, Observable, of} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class MedicationPlanResolver implements Resolve<Observable<MedicationPlan | undefined>> {
+export class MedicationPlanResolver implements Resolve<Observable<MedicationPlan>> {
 
   constructor(
     private medicationPlanRepository: MedicationPlanRepositoryService,
     private router: Router
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<MedicationPlan | undefined> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<MedicationPlan> {
     const planId = route.paramMap.get('planId');
     if (planId) {
       const medicationPlan = this.medicationPlanRepository.get(planId);
