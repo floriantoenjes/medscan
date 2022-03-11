@@ -5,14 +5,14 @@ import {RouterModule, Routes} from '@angular/router';
 import { ScanComponent } from './scan/scan.component';
 import { ManagePlansComponent } from './manage-plans/manage-plans.component';
 import { MedscanComponent } from './medscan.component';
-import {MedicalPlanResolver} from "./shared/resolvers/medical-plan.resolver";
+import {MedicationPlanResolver} from "./shared/resolvers/medication-plan-resolver.service";
 import { TimeSectionComponent } from './time-section/time-section.component';
 
 const routes = [
   {path: '', component: WelcomeComponent},
   {path: 'scan', component: ScanComponent},
   {path: 'manage-plans/:planId', component: ManagePlansComponent, resolve: {
-    plan: MedicalPlanResolver
+    plan: MedicationPlanResolver
   }}
 ] as Routes;
 

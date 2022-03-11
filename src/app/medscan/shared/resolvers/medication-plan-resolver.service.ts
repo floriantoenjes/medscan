@@ -11,7 +11,7 @@ import {EMPTY, Observable, of} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class MedicalPlanResolver implements Resolve<Observable<MedicationPlan | undefined>> {
+export class MedicationPlanResolver implements Resolve<Observable<MedicationPlan | undefined>> {
 
   constructor(
     private medicationPlanRepository: MedicationPlanRepositoryService,

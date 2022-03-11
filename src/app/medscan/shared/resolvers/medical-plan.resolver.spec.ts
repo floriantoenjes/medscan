@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MedicalPlanResolver } from './medical-plan.resolver';
+import { MedicationPlanResolver } from './medication-plan-resolver.service';
 
 describe('MedicalPlanResolver', () => {
-  let resolver: MedicalPlanResolver;
+  let resolver: MedicationPlanResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    resolver = TestBed.inject(MedicalPlanResolver);
+    resolver = TestBed.inject(MedicationPlanResolver);
   });
 
   it('should be created', () => {
