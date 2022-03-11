@@ -18,43 +18,33 @@ export class MedicationPlanParserService {
     return new Promise((resolve) => {
       const parsedXml = this.xmlParser.parse(xml);
 
-      console.log(parsedXml);
-
       const planId = parsedXml.MP['@_U'];
       const medicationPlan = new MedicationPlan(planId);
 
       const usualMedsObj = parsedXml.MP.S[0].M;
-      if (usualMedsObj.length > 0) {
-        usualMedsObj.forEach((usualMed: any) => {
-          medicationPlan.addMedication(this.parseMedication(usualMed));
-        });
-      } else {
-        medicationPlan.addMedication(this.parseMedication(usualMedsObj));
-      }
+      this.parseMedicationsObj(medicationPlan, usualMedsObj);
 
       const specialMedsObj = parsedXml.MP.S[1].M;
-      if (specialMedsObj.length > 0) {
-        specialMedsObj.forEach((specialMed: any) => {
-          medicationPlan.addMedication(this.parseMedication(specialMed, MedicationTimes.SPECIAL));
-        });
-      } else {
-        medicationPlan.addMedication(this.parseMedication(specialMedsObj, MedicationTimes.SPECIAL));
-      }
+      this.parseMedicationsObj(medicationPlan, specialMedsObj, MedicationTimes.SPECIAL);
 
       const selfMedicatedObj = parsedXml.MP.S[2].M;
-      if (selfMedicatedObj.length > 0) {
-        selfMedicatedObj.forEach((selfMed: any) => {
-          medicationPlan.addMedication(this.parseMedication(selfMed, MedicationTimes.SELF_MEDICATED));
-        });
-      } else {
-        medicationPlan.addMedication(this.parseMedication(selfMedicatedObj, MedicationTimes.SELF_MEDICATED));
-      }
+      this.parseMedicationsObj(medicationPlan, selfMedicatedObj, MedicationTimes.SELF_MEDICATED);
 
       resolve(medicationPlan);
     });
   }
 
-  parseMedication(usualMed: any, medicationTime = MedicationTimes.UNKNOWN): Medication {
+  parseMedicationsObj(medicationPlan: MedicationPlan, medicationsObj: any, medicationTime = MedicationTimes.UNKNOWN): void {
+    if (medicationsObj.length > 0) {
+      medicationsObj.forEach((med: any) => {
+        medicationPlan.addMedication(this.parseMedication(med, medicationTime));
+      });
+    } else {
+      medicationPlan.addMedication(this.parseMedication(medicationsObj, medicationTime));
+    }
+  }
+
+  parseMedication(usualMed: any, medicationTime: MedicationTimes): Medication {
     let reason = '';
     let id = '';
 
