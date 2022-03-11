@@ -23,6 +23,9 @@ export class MedicationPlan {
       case MedicationTimes.EVENING:
         this.eveningMedications.push(medication);
         break;
+      case MedicationTimes.LUNCH:
+        this.lunchMedications.push(medication);
+        break;
       case MedicationTimes.NIGHT:
         this.nightMedications.push(medication);
         break;
