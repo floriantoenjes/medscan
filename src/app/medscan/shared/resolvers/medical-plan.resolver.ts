@@ -2,25 +2,31 @@ import { Injectable } from '@angular/core';
 import {
   Resolve,
   RouterStateSnapshot,
-  ActivatedRouteSnapshot
+  ActivatedRouteSnapshot, Router
 } from '@angular/router';
 import {MedicationPlan} from "../models/medication-plan";
 import {MedicationPlanRepositoryService} from "../repositories/medication-plan-repository.service";
+import {EMPTY, Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class MedicalPlanResolver implements Resolve<MedicationPlan | undefined> {
+export class MedicalPlanResolver implements Resolve<Observable<MedicationPlan | undefined>> {
 
   constructor(
-    private medicationPlanRepository: MedicationPlanRepositoryService
+    private medicationPlanRepository: MedicationPlanRepositoryService,
+    private router: Router
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MedicationPlan | undefined {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<MedicationPlan | undefined> {
     const planId = route.paramMap.get('planId');
     if (planId) {
-      return this.medicationPlanRepository.get(planId);
+      const medicationPlan = this.medicationPlanRepository.get(planId);
+      if (medicationPlan) {
+        return of(medicationPlan);
+      }
     }
-    return undefined;
+    this.router.navigate(['']);
+    return EMPTY;
   }
 }
